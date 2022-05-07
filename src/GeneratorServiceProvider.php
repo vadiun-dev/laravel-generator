@@ -7,8 +7,6 @@ use Hitocean\Generator\Commands\Generators\Backend\ImportModelsFromJsonCommand;
 use Hitocean\Generator\Commands\Generators\Backend\RootDirectoryGeneratorCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Hitocean\Generator\Commands\GeneratorCommand;
-
 
 class GeneratorServiceProvider extends PackageServiceProvider
 {

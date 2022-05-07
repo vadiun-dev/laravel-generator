@@ -2,10 +2,9 @@
 
 namespace Hitocean\Generator\Tests;
 
+use Hitocean\Generator\GeneratorServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Hitocean\Generator\GeneratorServiceProvider;
-
 
 class TestCase extends Orchestra
 {

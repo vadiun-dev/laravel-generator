@@ -19,8 +19,7 @@ class ActionWriter extends ClassWriter
         string $routeMethod,
         string $routeName,
         ?string $resource
-    ): void
-    {
+    ): void {
         $directory = static::path($rootName, $className);
 
         static::makeTests($rootName, $className, $routeMethod, $routeName, $hasActioTest, $attributes, $hasDto);
@@ -82,8 +81,7 @@ class ActionWriter extends ClassWriter
         string $className,
         array $attributes,
         bool $hasRequest
-    ): string
-    {
+    ): string {
         if (! $hasRequest) {
             return '';
         }
