@@ -1,6 +1,6 @@
 <?php
 
-namespace Hitocean\Generator\Commands\Commands;
+namespace Hitocean\Generator\Commands;
 
 use Illuminate\Console\Command;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Hitocean\Generator\Commands\Facades;
+namespace Hitocean\Generator\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

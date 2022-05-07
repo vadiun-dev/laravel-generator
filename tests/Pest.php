@@ -1,5 +1,5 @@
 <?php
 
-use Hitocean\Generator\Commands\Tests\TestCase;
+use Hitocean\Generator\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);

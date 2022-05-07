@@ -1,10 +1,13 @@
 <?php
 
-namespace Hitocean\Generator\Commands;
+namespace Hitocean\Generator;
 
+use Hitocean\Generator\Commands\Generators\Backend\ImportActionsFromJsonCommand;
+use Hitocean\Generator\Commands\Generators\Backend\ImportModelsFromJsonCommand;
+use Hitocean\Generator\Commands\Generators\Backend\RootDirectoryGeneratorCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Hitocean\Generator\Commands\Commands\GeneratorCommand;
+use Hitocean\Generator\Commands\GeneratorCommand;
 
 class GeneratorServiceProvider extends PackageServiceProvider
 {
@@ -20,6 +23,8 @@ class GeneratorServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasMigration('create_laravel-generator_table')
-            ->hasCommand(GeneratorCommand::class);
+            ->hasCommand(ImportActionsFromJsonCommand::class)
+            ->hasCommand(RootDirectoryGeneratorCommand::class)
+            ->hasCommand(ImportModelsFromJsonCommand::class);
     }
 }

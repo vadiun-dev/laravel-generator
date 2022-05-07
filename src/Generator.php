@@ -1,6 +1,6 @@
 <?php
 
-namespace Hitocean\Generator\Commands;
+namespace Hitocean\Generator;
 
 class Generator
 {
