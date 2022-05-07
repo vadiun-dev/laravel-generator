@@ -1,16 +1,12 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Backend;
 
-
-use Hitocean\Generator\Commands\Generators\Backend\Writers\ActionWriter;
 use Hitocean\Generator\Commands\Generators\Backend\Writers\ControllerTestWriter;
-use Hitocean\Generator\Commands\Generators\Backend\Writers\RequestWriter;
 use Illuminate\Console\Command;
 
-class ControllerTestGeneratorCommand extends Command {
-
+class ControllerTestGeneratorCommand extends Command
+{
     /**
      * The name and signature of the console command.
      *
@@ -30,16 +26,13 @@ class ControllerTestGeneratorCommand extends Command {
      *
      * @return void
      */
-
     public function handle()
     {
-        $className   = $this->argument('className');
-        $rootName    = $this->argument('rootName');
-        $route       = $this->argument('route');
+        $className = $this->argument('className');
+        $rootName = $this->argument('rootName');
+        $route = $this->argument('route');
         $routeMethod = $this->argument('routeMethod');
 
         ControllerTestWriter::createClassFile($rootName, $className, $route, $routeMethod);
     }
-
-
 }

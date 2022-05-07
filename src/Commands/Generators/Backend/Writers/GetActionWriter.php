@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 
 class GetActionWriter extends ClassWriter
 {
-
     protected static $folder = 'Actions';
 
     public static function createClassFile(
@@ -23,10 +22,10 @@ class GetActionWriter extends ClassWriter
         static::makeTests($rootName, $className, $routeMethod, $routeName,  $attributes);
         RequestWriter::createClassFile($rootName, 'Get'.$className, []);
 
-        if (!file_exists(base_path($directory))) {
+        if (! file_exists(base_path($directory))) {
             RouteWriter::writeFile($routeMethod, $routeName, static::namespace($rootName, $className));
         }
-        if (!file_exists(base_path($directory))) {
+        if (! file_exists(base_path($directory))) {
             GateWriter::writeFile('Get'.$className);
         }
 
@@ -36,8 +35,8 @@ class GetActionWriter extends ClassWriter
             'get_action',
             base_path($directory),
             [
-                'upperName'    => $upperName,
-                'lowerName'    => $lowerName,
+                'upperName' => $upperName,
+                'lowerName' => $lowerName,
             ]
         );
     }
@@ -50,7 +49,6 @@ class GetActionWriter extends ClassWriter
         array $attributes,
     ): void {
         GetControllerTestWriter::createClassFile($rootName, $className, $routeMethod, $routeName, $attributes);
-
     }
 
     /**
@@ -63,6 +61,7 @@ class GetActionWriter extends ClassWriter
         foreach ($attributes as $attribute) {
             $str .= "'{$attribute->name}' => \$dto->{$attribute->name},\r\n\t";
         }
+
         return $str;
     }
 
@@ -73,8 +72,7 @@ class GetActionWriter extends ClassWriter
         if (str_contains($name, 'Action')) {
             return $name;
         }
+
         return $name . 'Action';
     }
-
-
 }

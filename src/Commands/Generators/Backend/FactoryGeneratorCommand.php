@@ -1,14 +1,12 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Backend;
 
-
 use Hitocean\Generator\Commands\Generators\Backend\Writers\FactoryWriter;
-use Hitocean\Generator\Commands\Generators\Backend\Writers\ModelWriter;
 use Illuminate\Console\Command;
 
-class FactoryGeneratorCommand extends Command {
+class FactoryGeneratorCommand extends Command
+{
     /**
      * The name and signature of the console command.
      *
@@ -28,7 +26,6 @@ class FactoryGeneratorCommand extends Command {
      *
      * @return void
      */
-
     public function handle()
     {
         $className = $this->argument('className');

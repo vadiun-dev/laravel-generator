@@ -1,14 +1,12 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Backend;
-
 
 use Hitocean\Generator\Commands\Generators\Backend\Writers\DTOWriter;
 use Illuminate\Console\Command;
 
-class DTOGeneratorCommand extends Command {
-
+class DTOGeneratorCommand extends Command
+{
     /**
      * The name and signature of the console command.
      *
@@ -28,7 +26,6 @@ class DTOGeneratorCommand extends Command {
      *
      * @return void
      */
-
     public function handle()
     {
         $className = $this->argument('className');
@@ -36,5 +33,4 @@ class DTOGeneratorCommand extends Command {
 
         DTOWriter::createClassFile($rootName, $className, []);
     }
-
 }

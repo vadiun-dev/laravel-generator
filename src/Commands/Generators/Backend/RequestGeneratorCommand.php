@@ -1,14 +1,12 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Backend;
-
 
 use Hitocean\Generator\Commands\Generators\Backend\Writers\RequestWriter;
 use Illuminate\Console\Command;
 
-class RequestGeneratorCommand extends Command {
-
+class RequestGeneratorCommand extends Command
+{
     /**
      * The name and signature of the console command.
      *
@@ -28,7 +26,6 @@ class RequestGeneratorCommand extends Command {
      *
      * @return void
      */
-
     public function handle()
     {
         $className = $this->argument('className');

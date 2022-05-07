@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 
 class DeleteControllerTestWriter extends ClassWriter
 {
-
     public static function createClassFile(
         $rootName,
         $className,
@@ -17,32 +16,32 @@ class DeleteControllerTestWriter extends ClassWriter
         array $attributes,
     ): void {
         $directory = static::path($rootName, 'Delete' . $className);
-        $folders   = explode('/', $directory);
+        $folders = explode('/', $directory);
         unset($folders[count($folders) - 1]);
         $dir = implode('/', $folders);
         static::makeDirectory($dir);
         $testNamespace = static::namespace($rootName, $className);
-        $folders       = explode('\\', $testNamespace);
+        $folders = explode('\\', $testNamespace);
         unset($folders[count($folders) - 1]);
         $testNamespace = implode('\\', $folders);
 
-        $lowerName  = Str::lower($className);
-        $upperName  = Str::ucfirst($className);
+        $lowerName = Str::lower($className);
+        $upperName = Str::ucfirst($className);
         $test_route = 'api/'.explode("{", $routeName)[0] . '{' . "\${$lowerName}->id" . '}';
 
         FileAdmin::writeFile(
             'delete_controller_test',
             base_path($directory),
             [
-                'upperName'           => $upperName,
-                'lowerName'           => $lowerName,
-                'testNamespace'       => $testNamespace,
-                'routeMethod'         => $routeMethod,
-                'test_route'          => $test_route,
-                'routeName'           => 'api/' . $routeName,
+                'upperName' => $upperName,
+                'lowerName' => $lowerName,
+                'testNamespace' => $testNamespace,
+                'routeMethod' => $routeMethod,
+                'test_route' => $test_route,
+                'routeName' => 'api/' . $routeName,
                 'requestDataNullable' => static::writeAttributesNullable($attributes),
-                'requestData'         => static::writeAttributes($attributes),
-                'requestRules'        => RequestWriter::writeAttributes($attributes)
+                'requestData' => static::writeAttributes($attributes),
+                'requestRules' => RequestWriter::writeAttributes($attributes),
             ]
         );
     }
@@ -50,8 +49,8 @@ class DeleteControllerTestWriter extends ClassWriter
     public static function path($rootFolder, $name): string
     {
         return "tests/Actions/" . static::rootFolder($rootFolder) . '/' . static::folderName(
-                $name
-            ) . '/' . static::className($name) . '.php';
+            $name
+        ) . '/' . static::className($name) . '.php';
     }
 
     public static function folderName($name): string
@@ -66,13 +65,14 @@ class DeleteControllerTestWriter extends ClassWriter
         if (str_contains($name, 'ControllerTest')) {
             return $name;
         }
+
         return $name . 'ControllerTest';
     }
 
     private static function makeDirectory($directoryName)
     {
-        if (!file_exists($directoryName)) {
-            if (!mkdir($concurrentDirectory = base_path($directoryName), 0777, true) && !is_dir($concurrentDirectory)) {
+        if (! file_exists($directoryName)) {
+            if (! mkdir($concurrentDirectory = base_path($directoryName), 0777, true) && ! is_dir($concurrentDirectory)) {
                 throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
             }
         }
@@ -81,8 +81,8 @@ class DeleteControllerTestWriter extends ClassWriter
     public static function namespace($rootFolder, $name): string
     {
         return "Tests\\Actions\\" . static::rootFolder($rootFolder) . '\\' . static::folderName(
-                $name
-            ) . '\\' . static::className($name) . '';
+            $name
+        ) . '\\' . static::className($name) . '';
     }
 
     /**
@@ -99,6 +99,7 @@ class DeleteControllerTestWriter extends ClassWriter
                 $attrs .= "'{$attribute->name}' => {$attribute->fakerValue()},\r\n\t";
             }
         }
+
         return $attrs;
     }
 
@@ -112,7 +113,7 @@ class DeleteControllerTestWriter extends ClassWriter
         foreach ($attributes as $attribute) {
             $attrs .= "'{$attribute->name}' => {$attribute->fakerValue()},\r\n\t";
         }
+
         return $attrs;
     }
-
 }

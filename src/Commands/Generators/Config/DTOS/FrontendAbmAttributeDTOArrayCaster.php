@@ -1,14 +1,12 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Config\DTOS;
-
 
 use Exception;
 use Spatie\DataTransferObject\Caster;
 
-class FrontendAbmAttributeDTOArrayCaster implements Caster {
-
+class FrontendAbmAttributeDTOArrayCaster implements Caster
+{
     public function cast(mixed $value): array
     {
         if (! is_array($value)) {

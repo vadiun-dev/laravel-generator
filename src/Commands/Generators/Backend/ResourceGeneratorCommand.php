@@ -1,15 +1,12 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Backend;
-
 
 use Hitocean\Generator\Commands\Generators\Backend\Writers\ResourceWriter;
 use Illuminate\Console\Command;
-use Illuminate\Support\Str;
 
-class ResourceGeneratorCommand extends Command{
-
+class ResourceGeneratorCommand extends Command
+{
     /**
      * The name and signature of the console command.
      *
@@ -29,7 +26,6 @@ class ResourceGeneratorCommand extends Command{
      *
      * @return void
      */
-
     public function handle()
     {
         $className = $this->argument('className');
@@ -37,5 +33,4 @@ class ResourceGeneratorCommand extends Command{
 
         ResourceWriter::createClassFile($rootName, $className, []);
     }
-
 }

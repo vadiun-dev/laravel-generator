@@ -2,9 +2,9 @@
 
 namespace Hitocean\Generator\Commands;
 
+use Hitocean\Generator\Commands\Commands\GeneratorCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Hitocean\Generator\Commands\Commands\GeneratorCommand;
 
 class GeneratorServiceProvider extends PackageServiceProvider
 {

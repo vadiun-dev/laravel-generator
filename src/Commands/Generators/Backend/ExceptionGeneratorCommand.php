@@ -1,13 +1,11 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Backend;
 
-
 use Illuminate\Console\Command;
-use Illuminate\Support\Str;
 
-class ExceptionGeneratorCommand extends Command {
+class ExceptionGeneratorCommand extends Command
+{
     /**
      * The name and signature of the console command.
      *
@@ -27,7 +25,6 @@ class ExceptionGeneratorCommand extends Command {
      *
      * @return void
      */
-
     public function handle()
     {
         $className = ucfirst($this->argument('className'));
@@ -35,9 +32,9 @@ class ExceptionGeneratorCommand extends Command {
 
         $directory = 'src/' . $rootName.'/Exceptions/'.$className.'Exception.php';
         FileAdmin::writeFile(
-            'exception', base_path($directory),
+            'exception',
+            base_path($directory),
             ['rootFolder' => $rootName, 'className' => $className.'Exception']
         );
     }
-
 }

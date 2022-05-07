@@ -1,18 +1,14 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Backend;
 
-
-use Hitocean\Generator\Commands\Generators\Config\ConfigFinder;
-use Hitocean\Generator\Commands\Generators\Config\DTOS\ActionDTO;
-use Hitocean\Generator\Commands\Generators\Config\DTOS\ConfigDTO;
-use Hitocean\Generator\Commands\Generators\Backend\Writers\ActionWriter;
 use Hitocean\Generator\Commands\Generators\Backend\Writers\ModelWriter;
+use Hitocean\Generator\Commands\Generators\Config\ConfigFinder;
+use Hitocean\Generator\Commands\Generators\Config\DTOS\ConfigDTO;
 use Illuminate\Console\Command;
 
-class ImportModelsFromJsonCommand extends Command {
-
+class ImportModelsFromJsonCommand extends Command
+{
     /**
      * The name and signature of the console command.
      *
@@ -32,7 +28,6 @@ class ImportModelsFromJsonCommand extends Command {
      *
      * @return void
      */
-
     public function handle()
     {
 

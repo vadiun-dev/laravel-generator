@@ -1,15 +1,13 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Backend\Writers;
-
 
 use Hitocean\Generator\Commands\Generators\Config\DTOS\ModelAttributeDTO;
 use Hitocean\Generator\Commands\Generators\FileAdmin;
 use Illuminate\Support\Str;
 
-class ResourceWriter extends ClassWriter {
-
+class ResourceWriter extends ClassWriter
+{
     protected static $folder = 'Resources';
 
     public static function createClassFile($rootName, $className, $attributes)
@@ -20,10 +18,10 @@ class ResourceWriter extends ClassWriter {
             base_path($directory),
             [
                 'rootFolder' => static::rootFolder($rootName),
-                'className'  => static::className($className),
+                'className' => static::className($className),
                 'attributes' => static::writeAttributes($attributes),
                 'modelName' => ModelWriter::className($className),
-                'modelImport' => ModelWriter::import($rootName, $className)
+                'modelImport' => ModelWriter::import($rootName, $className),
             ]
         );
     }
@@ -32,8 +30,10 @@ class ResourceWriter extends ClassWriter {
     {
         $name = Str::ucfirst($name);
 
-        if (str_contains($name, 'Resource'))
+        if (str_contains($name, 'Resource')) {
             return $name;
+        }
+
         return $name . 'Resource';
     }
 
@@ -48,7 +48,7 @@ class ResourceWriter extends ClassWriter {
         foreach ($attributes as $attribute) {
             $attrs .= "'" . Str::snake($attribute->name) . "' => " . '$this->' . $attribute->name . ",\r\n\t";
         }
+
         return $attrs;
     }
-
 }

@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 
 class StoreActionWriter extends ClassWriter
 {
-
     protected static $folder = 'Actions';
 
     public static function createClassFile(
@@ -25,10 +24,10 @@ class StoreActionWriter extends ClassWriter
         DTOWriter::createClassFile($rootName, 'Store'.$className, $attributes);
         RequestWriter::createClassFile($rootName, 'Store'.$className, $attributes);
 
-        if (!file_exists(base_path($directory))) {
+        if (! file_exists(base_path($directory))) {
             RouteWriter::writeFile($routeMethod, $routeName, static::namespace($rootName, $className));
         }
-        if (!file_exists(base_path($directory))) {
+        if (! file_exists(base_path($directory))) {
             GateWriter::writeFile('Store'.$className);
         }
 
@@ -38,8 +37,8 @@ class StoreActionWriter extends ClassWriter
             'store_action',
             base_path($directory),
             [
-                'upperName'    => $upperName,
-                'lowerName'    => $lowerName,
+                'upperName' => $upperName,
+                'lowerName' => $lowerName,
                 'createFields' => static::writeAttributes($attributes),
             ]
         );
@@ -54,8 +53,7 @@ class StoreActionWriter extends ClassWriter
         string $table_name
     ): void {
         StoreControllerTestWriter::createClassFile($rootName, $className, $routeMethod, $routeName, $attributes);
-            StoreActionTestWriter::createClassFile($rootName, $className, $attributes, $table_name);
-
+        StoreActionTestWriter::createClassFile($rootName, $className, $attributes, $table_name);
     }
 
     /**
@@ -68,6 +66,7 @@ class StoreActionWriter extends ClassWriter
         foreach ($attributes as $attribute) {
             $str .= "'{$attribute->name}' => \$dto->{$attribute->name},\r\n\t";
         }
+
         return $str;
     }
 
@@ -78,8 +77,7 @@ class StoreActionWriter extends ClassWriter
         if (str_contains($name, 'Action')) {
             return $name;
         }
+
         return $name . 'Action';
     }
-
-
 }

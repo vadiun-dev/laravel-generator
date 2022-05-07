@@ -11,7 +11,7 @@ class StoreActionTestWriter extends ClassWriter
     public static function createClassFile($rootName, $className, array $attributes, string $table_name)
     {
         $testNamespace = static::namespace($rootName, $className);
-        $folders       = explode('\\', $testNamespace);
+        $folders = explode('\\', $testNamespace);
         unset($folders[count($folders) - 1]);
         $directory = static::path($rootName, 'Store' . $className);
 
@@ -19,14 +19,15 @@ class StoreActionTestWriter extends ClassWriter
         $upperName = Str::ucfirst($className);
 
         FileAdmin::writeFile(
-            'store_actiontest', base_path($directory),
+            'store_actiontest',
+            base_path($directory),
             [
                 'upperName' => $upperName,
                 'lowerName' => $lowerName,
                 'assertDataTable' => static::assertData($attributes),
                 'dtoDataNullable' => static::dtoDataNullable($attributes),
                 'dtoData' => static::dtoData($attributes),
-                'tableName' => $table_name
+                'tableName' => $table_name,
             ]
         );
     }
@@ -34,8 +35,8 @@ class StoreActionTestWriter extends ClassWriter
     public static function namespace($rootFolder, $name): string
     {
         return "Tests\\Actions\\" . static::rootFolder($rootFolder) . '\\' . static::folderName(
-                $name
-            ) . '\\' . static::className($name) . '';
+            $name
+        ) . '\\' . static::className($name) . '';
     }
 
     public static function folderName($name): string
@@ -50,14 +51,15 @@ class StoreActionTestWriter extends ClassWriter
         if (str_contains($name, 'ActionTest')) {
             return $name;
         }
+
         return $name . 'ActionTest';
     }
 
     public static function path($rootFolder, $name): string
     {
         return "tests/Actions/" . static::rootFolder($rootFolder) . '/' . static::folderName(
-                $name
-            ) . '/' . static::className($name) . '.php';
+            $name
+        ) . '/' . static::className($name) . '.php';
     }
 
     /**
@@ -72,6 +74,7 @@ class StoreActionTestWriter extends ClassWriter
         foreach ($attributes as $attribute) {
             $attrs .= "'{$attribute->name}' => \$dto->{$attribute->name} ,\r\n\t";
         }
+
         return $attrs;
     }
 
@@ -87,6 +90,7 @@ class StoreActionTestWriter extends ClassWriter
         foreach ($attributes as $attribute) {
             $attrs .= "'{$attribute->name}' => {$attribute->fakerValue()},\r\n\t";
         }
+
         return $attrs;
     }
 
@@ -106,6 +110,7 @@ class StoreActionTestWriter extends ClassWriter
                 $attrs .= "'{$attribute->name}' => {$attribute->fakerValue()},\r\n\t";
             }
         }
+
         return $attrs;
     }
 }

@@ -17,12 +17,12 @@ class ActionAttributeDTO extends DataTransferObject
     {
         if ($this->isOptional()) {
             $type = Str::remove('?', $this->type);
-        } else if ($this->isArray()) {
+        } elseif ($this->isArray()) {
             $type = Str::remove('*', $this->type);
         } else {
             $type = $this->type;
         }
-        if (!in_array($type, ['string', 'int', 'float', 'date', 'bool', 'datetime', 'file'])) {
+        if (! in_array($type, ['string', 'int', 'float', 'date', 'bool', 'datetime', 'file'])) {
             throw new \Exception('el tipo ' . $type . ' no puede ser procesado');
         }
 
@@ -53,6 +53,7 @@ class ActionAttributeDTO extends DataTransferObject
         if (str_contains($type, '?') || str_contains($type, '*')) {
             $type = Str::remove(['?', '*'], $type);
         }
+
         return ctype_upper($type[0]);
     }
 }

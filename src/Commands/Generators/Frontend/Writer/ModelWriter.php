@@ -1,15 +1,13 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Frontend\Writer;
-
 
 use Hitocean\Generator\Commands\Generators\Config\DTOS\FrontendAbmAttributeDTO;
 use Hitocean\Generator\Commands\Generators\FileAdmin;
 use Illuminate\Support\Str;
 
-class ModelWriter {
-
+class ModelWriter
+{
     private static function path($rootName, $name): string
     {
         return 'frontend/'.$rootName.'/models/'.Str::ucfirst($name).'.ts';
@@ -22,7 +20,8 @@ class ModelWriter {
         $lowerName = Str::lower($name);
         $upperName = Str::ucfirst($name);
         FileAdmin::writeFile(
-            'model', base_path($directory),
+            'model',
+            base_path($directory),
             [
                 'upperName' => $upperName,
                 'lowerName' => $lowerName,
@@ -41,8 +40,7 @@ class ModelWriter {
     public static function getAttributes(array $attributes): string
     {
         $attrs = "id: number;\r\n\t";
-        foreach ($attributes as $attribute)
-        {
+        foreach ($attributes as $attribute) {
             $attrs .= "{$attribute->name}: ".static::attributeType($attribute).";\r\n\t";
         }
         $attrs .= "isDeleted: boolean;\r\n\t";
@@ -50,17 +48,16 @@ class ModelWriter {
         return $attrs;
     }
 
-
     private static function attributeType(FrontendAbmAttributeDTO $attribute): string
     {
-        if($attribute->isOptional)
+        if ($attribute->isOptional) {
             $optional = ' | null';
-        else
+        } else {
             $optional = '';
+        }
 
 
-        return match($attribute->type)
-        {
+        return match ($attribute->type) {
             'file' => 'File'.$optional,
             'date' => 'Dayjs()'.$optional,
             'array' => '[]'.$optional,
@@ -68,19 +65,16 @@ class ModelWriter {
             'bool' => 'boolean'.$optional,
             'string' => 'string'.$optional
         };
-
     }
 
     private static function getFromBackendAttributes($modelName, $attributes): string
     {
         $attrs = "id: $modelName.id,\r\n\t";
-        foreach ($attributes as $attribute)
-        {
+        foreach ($attributes as $attribute) {
             $attrs .= "{$attribute->name}: $modelName.{$attribute->name},\r\n\t";
         }
         $attrs .= "isDeleted: $modelName.isDeleted,\r\n\t";
+
         return $attrs;
     }
-
-
 }

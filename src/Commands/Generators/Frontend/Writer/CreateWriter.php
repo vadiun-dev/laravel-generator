@@ -1,14 +1,12 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Frontend\Writer;
-
 
 use Hitocean\Generator\Commands\Generators\FileAdmin;
 use Illuminate\Support\Str;
 
-class CreateWriter {
-
+class CreateWriter
+{
     public static function createFile(string $folder, string $name, string $translation)
     {
         $directory = static::path($folder, $name);
@@ -20,9 +18,9 @@ class CreateWriter {
             'model',
             base_path($directory),
             [
-                'upperNameTranslation'  => $upperNameTranslation,
-                'upperName'  => $upperName,
-                'lowerName'  => $lowerName,
+                'upperNameTranslation' => $upperNameTranslation,
+                'upperName' => $upperName,
+                'lowerName' => $lowerName,
             ],
             base_path('app/Console/Generators/Frontend/Stubs/create.stub')
         );
@@ -31,6 +29,7 @@ class CreateWriter {
     private static function path($rootName, $name): string
     {
         $upperName = Str::ucfirst($name);
+
         return "frontend/$rootName/components/{$upperName}Create.tsx";
     }
 }

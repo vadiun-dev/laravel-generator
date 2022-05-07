@@ -1,14 +1,12 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Config\DTOS;
-
 
 use Spatie\DataTransferObject\Attributes\CastWith;
 use Spatie\DataTransferObject\DataTransferObject;
 
-class FrontendAbmDTO extends DataTransferObject {
-
+class FrontendAbmDTO extends DataTransferObject
+{
     public string $folder;
     public string $name;
     public string $route;

@@ -1,14 +1,12 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Backend;
-
 
 use Hitocean\Generator\Commands\Generators\Backend\Writers\MigrationWriter;
 use Illuminate\Console\Command;
 
-class MigrationGeneratorCommand extends Command {
-
+class MigrationGeneratorCommand extends Command
+{
     /**
      * The name and signature of the console command.
      *
@@ -28,7 +26,6 @@ class MigrationGeneratorCommand extends Command {
      *
      * @return void
      */
-
     public function handle()
     {
         $className = $this->argument('className');
