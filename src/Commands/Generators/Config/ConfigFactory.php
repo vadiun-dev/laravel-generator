@@ -1,16 +1,14 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Config;
-
 
 use Hitocean\Generator\Commands\Generators\Config\DTOS\ActionDTO;
 use Hitocean\Generator\Commands\Generators\Config\DTOS\ConfigDTO;
 use Hitocean\Generator\Commands\Generators\Config\DTOS\FrontendAbmDTO;
 use Illuminate\Support\Str;
 
-class ConfigFactory {
-
+class ConfigFactory
+{
     public static function makeModel($json_data)
     {
         return new ConfigDTO(
@@ -37,27 +35,25 @@ class ConfigFactory {
 
     private static function mapAction($json_data): array
     {
-
         return [
-            'folder'         => $json_data->folder,
-            'name'           => $json_data->name,
+            'folder' => $json_data->folder,
+            'name' => $json_data->name,
             'controllerTest' => $json_data->controllerTest,
-            'actionTest'     => $json_data->actionTest,
-            'route'          => $json_data->routeName,
-            'routeMethod'    => $json_data->routeMethod,
-            'roles'          => $json_data->roles,
-            'attributes'     => array_map(
+            'actionTest' => $json_data->actionTest,
+            'route' => $json_data->routeName,
+            'routeMethod' => $json_data->routeMethod,
+            'roles' => $json_data->roles,
+            'attributes' => array_map(
                 fn ($atr) => [
-                    'type'       => $atr->type,
-                    'name'       => $atr->name,
+                    'type' => $atr->type,
+                    'name' => $atr->name,
                     'attributes' => property_exists($atr, 'attributes') ? static::mapActionAttribute(
                         $atr->attributes
-                    ) : []
+                    ) : [],
                 ],
                 $json_data->attributes
             ),
         ];
-
     }
 
     private static function mapActionAttribute($attributes): array
@@ -65,13 +61,14 @@ class ConfigFactory {
         $attrs = [];
         foreach ($attributes as $attribute) {
             $attrs[] = [
-                'name'       => $attribute->name,
-                'type'       => $attribute->type,
+                'name' => $attribute->name,
+                'type' => $attribute->type,
                 'attributes' => property_exists($attribute, 'attributes') ? static::mapActionAttribute(
                     $attribute->attributes
-                ) : []
+                ) : [],
             ];
         }
+
         return $attrs;
     }
 
@@ -79,11 +76,11 @@ class ConfigFactory {
     {
         return new FrontendAbmDTO(
             [
-                'folder'     => $json_data->folder,
-                'name'       => $json_data->name,
-                'route'      => $json_data->route,
+                'folder' => $json_data->folder,
+                'name' => $json_data->name,
+                'route' => $json_data->route,
                 'attributes' => static::mapFrontedAbmAttributes($json_data->attributes),
-                'translation' => $json_data->translation
+                'translation' => $json_data->translation,
             ]
         );
     }
@@ -91,18 +88,16 @@ class ConfigFactory {
     private static function mapFrontedAbmAttributes(array $attributes)
     {
         $attrs = [];
-        foreach ($attributes as $attribute)
-        {
+        foreach ($attributes as $attribute) {
             $isOptional = false;
             $type = $attribute->type;
-            if(str_contains($type, '?'))
-            {
+            if (str_contains($type, '?')) {
                 $type = Str::remove('?', $type);
                 $isOptional = true;
             }
             $attrs[] = ['type' => $type, 'name' => $attribute->name, 'isOptional' => $isOptional, 'translation' => $attribute->translation];
         }
+
         return $attrs;
     }
-
 }

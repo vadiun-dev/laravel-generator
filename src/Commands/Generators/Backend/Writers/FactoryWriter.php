@@ -1,21 +1,21 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Backend\Writers;
-
 
 use Hitocean\Generator\Commands\Generators\Config\DTOS\ModelAttributeDTO;
 use Hitocean\Generator\Commands\Generators\FileAdmin;
 use Illuminate\Support\Str;
 
-class FactoryWriter extends ClassWriter {
-
+class FactoryWriter extends ClassWriter
+{
     public static function className($name): string
     {
         $name = Str::ucfirst($name);
 
-        if(str_contains($name, 'Factory'))
+        if (str_contains($name, 'Factory')) {
             return $name;
+        }
+
         return $name.'Factory';
     }
 
@@ -33,12 +33,13 @@ class FactoryWriter extends ClassWriter {
     {
         $directory = static::path($rootName, $className);
         FileAdmin::writeFile(
-            'factory', base_path($directory),
+            'factory',
+            base_path($directory),
             [
                 'className' => static::className($className),
                 'modelName' => ModelWriter::className($className),
                 'modelImport' => ModelWriter::import($rootName, $className),
-                'attributes' => static::writeAttributes($attributes)
+                'attributes' => static::writeAttributes($attributes),
             ]
         );
     }
@@ -52,11 +53,13 @@ class FactoryWriter extends ClassWriter {
     {
         $attrs = '';
         foreach ($attributes as $attribute) {
-            if (static::canBeNull($attribute->type))
+            if (static::canBeNull($attribute->type)) {
                 $attrs .= 'null';
-            else
+            } else {
                 $attrs .= "'".$attribute->name."' => ".'$this->faker->' . static::attributeType($attribute->type) . ",\r\n\t";
+            }
         }
+
         return $attrs;
     }
 
@@ -68,12 +71,13 @@ class FactoryWriter extends ClassWriter {
     private static function attributeType(string $type): string
     {
         if (str_contains($type, '?')) {
-            $type     = Str::remove('?', $type);
+            $type = Str::remove('?', $type);
         }
-        if (!in_array($type, ['string', 'int', 'float', 'date', 'bool', 'datetime']))
+        if (! in_array($type, ['string', 'int', 'float', 'date', 'bool', 'datetime'])) {
             throw new \Exception('el tipo ' . $type . ' no puede ser procesado');
+        }
 
-        return match($type) {
+        return match ($type) {
             'int' => 'randomNumber()',
             'float' => 'randomFloat(2)',
             'string' => 'name',

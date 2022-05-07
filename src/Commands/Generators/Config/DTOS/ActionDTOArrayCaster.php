@@ -1,10 +1,7 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Config\DTOS;
 
-
-use Hitocean\Generator\Commands\Generators\Config\DTOS\ActionDTO;
 use Exception;
 use Spatie\DataTransferObject\Caster;
 

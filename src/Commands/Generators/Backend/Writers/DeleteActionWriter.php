@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 
 class DeleteActionWriter extends ClassWriter
 {
-
     protected static $folder = 'Actions';
 
     public static function createClassFile(
@@ -23,10 +22,10 @@ class DeleteActionWriter extends ClassWriter
 
         static::makeTests($rootName, $className, $routeMethod, $routeName, $attributes, $table_name);
         RequestWriter::createClassFile($rootName, 'Delete'.$className, []);
-        if (!file_exists(base_path($directory))) {
+        if (! file_exists(base_path($directory))) {
             RouteWriter::writeFile($routeMethod, $routeName, static::namespace($rootName, $className));
         }
-        if (!file_exists(base_path($directory))) {
+        if (! file_exists(base_path($directory))) {
             GateWriter::writeFile('Delete'.$className);
         }
 
@@ -36,8 +35,8 @@ class DeleteActionWriter extends ClassWriter
             'delete_action',
             base_path($directory),
             [
-                'upperName'    => $upperName,
-                'lowerName'    => $lowerName,
+                'upperName' => $upperName,
+                'lowerName' => $lowerName,
             ]
         );
     }
@@ -52,7 +51,6 @@ class DeleteActionWriter extends ClassWriter
     ): void {
         DeleteControllerTestWriter::createClassFile($rootName, $className, $routeMethod, $routeName, $attributes);
         DeleteActionTestWriter::createClassFile($rootName, $className, $attributes, $table_name);
-
     }
 
     /**
@@ -65,6 +63,7 @@ class DeleteActionWriter extends ClassWriter
         foreach ($attributes as $attribute) {
             $str .= "'{$attribute->name}' => \$dto->{$attribute->name},\r\n\t";
         }
+
         return $str;
     }
 
@@ -75,8 +74,7 @@ class DeleteActionWriter extends ClassWriter
         if (str_contains($name, 'Action')) {
             return $name;
         }
+
         return $name . 'Action';
     }
-
-
 }

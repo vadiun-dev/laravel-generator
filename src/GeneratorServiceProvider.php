@@ -9,6 +9,7 @@ use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Hitocean\Generator\Commands\GeneratorCommand;
 
+
 class GeneratorServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void

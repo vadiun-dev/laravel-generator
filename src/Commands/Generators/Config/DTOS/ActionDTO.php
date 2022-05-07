@@ -1,14 +1,12 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Config\DTOS;
-
 
 use Spatie\DataTransferObject\Attributes\CastWith;
 use Spatie\DataTransferObject\DataTransferObject;
 
-class ActionDTO extends DataTransferObject {
-
+class ActionDTO extends DataTransferObject
+{
     public string $folder;
     public string $name;
     public string $controllerTest;

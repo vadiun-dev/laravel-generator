@@ -1,22 +1,20 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Frontend\Writer;
-
 
 use Hitocean\Generator\Commands\Generators\Config\DTOS\FrontendAbmAttributeDTO;
 use Hitocean\Generator\Commands\Generators\FileAdmin;
 use Illuminate\Support\Str;
 
-class TableWriter {
-
+class TableWriter
+{
     public static function createFile(string $folder, string $name, array $attributes, string $translation)
     {
         $directory = static::path($folder, $name);
 
-        $lowerName       = Str::lower($name);
-        $upperName       = Str::ucfirst($name);
-        $upperNameTranslation       = Str::ucfirst($translation);
+        $lowerName = Str::lower($name);
+        $upperName = Str::ucfirst($name);
+        $upperNameTranslation = Str::ucfirst($translation);
         $pluralUpperName = Str::pluralStudly($upperName);
         $pluralUpperNameTranslation = Str::pluralStudly($upperNameTranslation);
         $pluralLowerName = Str::pluralStudly($lowerName);
@@ -25,11 +23,11 @@ class TableWriter {
             'model',
             base_path($directory),
             [
-                'upperNamePluralTranslation'   => $pluralUpperNameTranslation,
-                'upperNamePlural'   => $pluralUpperName,
-                'lowerNamePlural'   => $pluralLowerName,
-                'upperName'         => $upperName,
-                'lowerName'         => $lowerName,
+                'upperNamePluralTranslation' => $pluralUpperNameTranslation,
+                'upperNamePlural' => $pluralUpperName,
+                'lowerNamePlural' => $pluralLowerName,
+                'upperName' => $upperName,
+                'lowerName' => $lowerName,
                 'attributesColumns' => static::getColumnAttributes($attributes),
             ],
             base_path('app/Console/Generators/Frontend/Stubs/table.stub')
@@ -62,19 +60,19 @@ class TableWriter {
                   }
                 },
             ";
-            $attrs  .= $column. "\r\n\t";
+            $attrs .= $column. "\r\n\t";
         }
 
         return $attrs;
     }
 
-
     private static function attributeType(FrontendAbmAttributeDTO $attribute): string
     {
-        if ($attribute->isOptional)
+        if ($attribute->isOptional) {
             $optional = ' | null';
-        else
+        } else {
             $optional = '';
+        }
 
 
         return match ($attribute->type) {
@@ -85,7 +83,6 @@ class TableWriter {
             'bool' => 'boolean' . $optional,
             'string' => 'string' . $optional
         };
-
     }
 
     private static function getFromBackendAttributes($modelName, $attributes): string
@@ -95,6 +92,7 @@ class TableWriter {
             $attrs .= "{$attribute->name}: $modelName.{$attribute->name},\r\n\t";
         }
         $attrs .= "isDeleted: $modelName.isDeleted,\r\n\t";
+
         return $attrs;
     }
 
@@ -104,6 +102,7 @@ class TableWriter {
         foreach ($attributes as $attribute) {
             $attrs .= "{$attribute->name}: $modelName.{$attribute->name},\r\n\t";
         }
+
         return $attrs;
     }
 }

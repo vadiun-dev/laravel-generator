@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 
 class GetControllerTestWriter extends ClassWriter
 {
-
     public static function createClassFile(
         $rootName,
         $className,
@@ -17,12 +16,12 @@ class GetControllerTestWriter extends ClassWriter
         array $attributes,
     ): void {
         $directory = static::path($rootName, 'Get' . $className);
-        $folders   = explode('/', $directory);
+        $folders = explode('/', $directory);
         unset($folders[count($folders) - 1]);
         $dir = implode('/', $folders);
         static::makeDirectory($dir);
         $testNamespace = static::namespace($rootName, $className);
-        $folders       = explode('\\', $testNamespace);
+        $folders = explode('\\', $testNamespace);
         unset($folders[count($folders) - 1]);
         $testNamespace = implode('\\', $folders);
 
@@ -32,14 +31,14 @@ class GetControllerTestWriter extends ClassWriter
             'get_controller_test',
             base_path($directory),
             [
-                'upperName'           => $upperName,
-                'lowerName'           => $lowerName,
-                'testNamespace'       => $testNamespace,
-                'routeMethod'         => $routeMethod,
-                'routeName'           => 'api/' . $routeName,
+                'upperName' => $upperName,
+                'lowerName' => $lowerName,
+                'testNamespace' => $testNamespace,
+                'routeMethod' => $routeMethod,
+                'routeName' => 'api/' . $routeName,
                 'requestDataNullable' => static::writeAttributesNullable($attributes),
-                'requestData'         => static::writeAttributes($attributes),
-                'requestRules'        => RequestWriter::writeAttributes($attributes)
+                'requestData' => static::writeAttributes($attributes),
+                'requestRules' => RequestWriter::writeAttributes($attributes),
             ]
         );
     }
@@ -47,8 +46,8 @@ class GetControllerTestWriter extends ClassWriter
     public static function path($rootFolder, $name): string
     {
         return "tests/Actions/" . static::rootFolder($rootFolder) . '/' . static::folderName(
-                $name
-            ) . '/' . static::className($name) . '.php';
+            $name
+        ) . '/' . static::className($name) . '.php';
     }
 
     public static function folderName($name): string
@@ -63,13 +62,14 @@ class GetControllerTestWriter extends ClassWriter
         if (str_contains($name, 'ControllerTest')) {
             return $name;
         }
+
         return $name . 'ControllerTest';
     }
 
     private static function makeDirectory($directoryName)
     {
-        if (!file_exists($directoryName)) {
-            if (!mkdir($concurrentDirectory = base_path($directoryName), 0777, true) && !is_dir($concurrentDirectory)) {
+        if (! file_exists($directoryName)) {
+            if (! mkdir($concurrentDirectory = base_path($directoryName), 0777, true) && ! is_dir($concurrentDirectory)) {
                 throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
             }
         }
@@ -78,8 +78,8 @@ class GetControllerTestWriter extends ClassWriter
     public static function namespace($rootFolder, $name): string
     {
         return "Tests\\Actions\\" . static::rootFolder($rootFolder) . '\\' . static::folderName(
-                $name
-            ) . '\\' . static::className($name) . '';
+            $name
+        ) . '\\' . static::className($name) . '';
     }
 
     /**
@@ -96,6 +96,7 @@ class GetControllerTestWriter extends ClassWriter
                 $attrs .= "'{$attribute->name}' => {$attribute->fakerValue()},\r\n\t";
             }
         }
+
         return $attrs;
     }
 
@@ -109,7 +110,7 @@ class GetControllerTestWriter extends ClassWriter
         foreach ($attributes as $attribute) {
             $attrs .= "'{$attribute->name}' => {$attribute->fakerValue()},\r\n\t";
         }
+
         return $attrs;
     }
-
 }

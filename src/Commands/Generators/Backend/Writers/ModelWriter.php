@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 
 class ModelWriter extends ClassWriter
 {
-
     protected static $folder = 'Models';
 
     public static function createClassFile(
@@ -32,8 +31,9 @@ class ModelWriter extends ClassWriter
         ResourceHelperTestWriter::createClassFile($rootName, $className, $attributes);
         $route_path = explode("_", Str::snake($className));
         $route_path[count($route_path) - 1] = Str::plural($route_path[count($route_path) - 1]);
-        foreach ($route_path as $key => $p)
+        foreach ($route_path as $key => $p) {
             $route_path[$key] = Str::lower($p);
+        }
         $route_path = implode("-", $route_path);
 
         if ($has_abm) {
@@ -79,12 +79,13 @@ class ModelWriter extends ClassWriter
         }
 
         FileAdmin::writeFile(
-            'model', base_path($directory),
+            'model',
+            base_path($directory),
             [
                 'rootFolder' => static::rootFolder($rootName),
-                'className'  => static::className($className),
-                'tableName'  => $tableName,
-                'attributes' => static::writeAttributes($attributes)
+                'className' => static::className($className),
+                'tableName' => $tableName,
+                'attributes' => static::writeAttributes($attributes),
             ]
         );
     }
@@ -118,9 +119,10 @@ class ModelWriter extends ClassWriter
             $atrs[] = new ActionAttributeDTO([
                 'name' => $attribute->name,
                 'type' => $attribute->type,
-                'attributes' => []
+                'attributes' => [],
                                            ]);
         }
+
         return $atrs;
     }
 }

@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 
 class FindActionWriter extends ClassWriter
 {
-
     protected static $folder = 'Actions';
 
     public static function createClassFile(
@@ -22,10 +21,10 @@ class FindActionWriter extends ClassWriter
 
         static::makeTests($rootName, $className, $routeMethod, $routeName, $attributes);
         RequestWriter::createClassFile($rootName, 'Find'.$className, []);
-        if (!file_exists(base_path($directory))) {
+        if (! file_exists(base_path($directory))) {
             RouteWriter::writeFile($routeMethod, $routeName, static::namespace($rootName, $className));
         }
-        if (!file_exists(base_path($directory))) {
+        if (! file_exists(base_path($directory))) {
             GateWriter::writeFile('Find'.$className);
         }
 
@@ -35,8 +34,8 @@ class FindActionWriter extends ClassWriter
             'find_action',
             base_path($directory),
             [
-                'upperName'    => $upperName,
-                'lowerName'    => $lowerName,
+                'upperName' => $upperName,
+                'lowerName' => $lowerName,
             ]
         );
     }
@@ -61,6 +60,7 @@ class FindActionWriter extends ClassWriter
         foreach ($attributes as $attribute) {
             $str .= "'{$attribute->name}' => \$dto->{$attribute->name},\r\n\t";
         }
+
         return $str;
     }
 
@@ -71,8 +71,7 @@ class FindActionWriter extends ClassWriter
         if (str_contains($name, 'Action')) {
             return $name;
         }
+
         return $name . 'Action';
     }
-
-
 }

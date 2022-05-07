@@ -1,26 +1,26 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Backend\Writers;
-
 
 use Hitocean\Generator\Commands\Generators\Config\DTOS\ActionAttributeDTO;
 use Hitocean\Generator\Commands\Generators\FileAdmin;
 use Illuminate\Support\Str;
 
-class RequestWriter extends ClassWriter {
-
+class RequestWriter extends ClassWriter
+{
     protected static $folder = 'Requests';
 
     public static function createClassFile($rootName, $className, $attributes): void
     {
         $directory = static::path($rootName, $className);
         FileAdmin::writeFile(
-            'request', base_path($directory), [
+            'request',
+            base_path($directory),
+            [
                 'rootFolder' => static::rootFolder($rootName),
-                'className'  => static::className($className),
+                'className' => static::className($className),
                 'attributes' => static::writeAttributes($attributes),
-                'gate' => static::gate($className)
+                'gate' => static::gate($className),
             ]
         );
     }
@@ -28,6 +28,7 @@ class RequestWriter extends ClassWriter {
     public static function gate(string $class_name): string
     {
         $gate_name = GateWriter::gateName($class_name);
+
         return "Gate::check('$gate_name', \$this->user());";
     }
 
@@ -35,8 +36,10 @@ class RequestWriter extends ClassWriter {
     {
         $name = Str::ucfirst($name);
 
-        if (str_contains($name, 'Request'))
+        if (str_contains($name, 'Request')) {
             return $name;
+        }
+
         return $name . 'Request';
     }
 
@@ -48,16 +51,20 @@ class RequestWriter extends ClassWriter {
     {
         $str = "";
         foreach ($attributes as $attribute) {
-            if ($prefix)
+            if ($prefix) {
                 $str .= "'$prefix." . Str::snake($attribute->name) . "' => '" . static::attributeType(
-                        $attribute->type
-                    ) . "',\r\n\t"; else
+                    $attribute->type
+                ) . "',\r\n\t";
+            } else {
                 $str .= "'" . Str::snake($attribute->name) . "' => '" . static::attributeType($attribute->type) . "',\r\n\t\t";
-            if (static::isDto($attribute) && str_contains($attribute->type, '*'))
+            }
+            if (static::isDto($attribute) && str_contains($attribute->type, '*')) {
                 $str .= static::writeAttributes($attribute->attributes, Str::snake($attribute->name).'.*');
-            else
+            } else {
                 $str .= static::writeAttributes($attribute->attributes, Str::snake($attribute->name));
+            }
         }
+
         return $str;
     }
 
@@ -74,39 +81,49 @@ class RequestWriter extends ClassWriter {
             $type = Str::remove('*', $type);
         }
 
-        if (!in_array($type, ['string', 'int', 'float', 'file', 'array', 'bool', 'date']) && !ctype_upper($type[0]))
+        if (! in_array($type, ['string', 'int', 'float', 'file', 'array', 'bool', 'date']) && ! ctype_upper($type[0])) {
             throw new \Exception('el tipo ' . $type . ' no puede ser procesado');
+        }
 
-        if(ctype_upper($type[0]))
-            if($is_optional)
+        if (ctype_upper($type[0])) {
+            if ($is_optional) {
                 return 'nullable';
-            else if($isArray)
+            } elseif ($isArray) {
                 return 'required | array';
-            else
+            } else {
                 return 'required';
+            }
+        }
 
-        if($is_optional)
+        if ($is_optional) {
             $requestType = 'nullable|';
-        else
+        } else {
             $requestType = 'required|';
+        }
 
         switch ($type) {
             case 'file':
                 $requestType .= 'file';
+
                 break;
             case 'int':
                 $requestType .= 'integer';
+
                 break;
             case 'float':
                 $requestType .= 'numeric';
+
                 break;
             case 'bool':
                 $requestType .= 'boolean';
+
                 break;
             default:
                 $requestType .= $type;
+
                 break;
         }
+
         return $requestType;
     }
 
@@ -116,6 +133,7 @@ class RequestWriter extends ClassWriter {
         if (str_contains($type, '?') || str_contains($type, '*')) {
             $type = Str::remove(['?', '*'], $type);
         }
+
         return ctype_upper($type[0]);
     }
 }

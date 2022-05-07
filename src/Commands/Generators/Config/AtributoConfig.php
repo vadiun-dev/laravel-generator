@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Config;
-
 
 use Spatie\DataTransferObject\DataTransferObject;
 
@@ -17,6 +15,4 @@ class AtributoConfig extends DataTransferObject
     private string $validacion;
     private string $tipo_db;
     private bool $inContruct;
-
-
 }

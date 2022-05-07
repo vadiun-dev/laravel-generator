@@ -1,14 +1,12 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Backend;
 
-
 use Hitocean\Generator\Commands\Generators\Backend\Writers\ActionTestWriter;
-use Hitocean\Generator\Commands\Generators\Backend\Writers\ControllerTestWriter;
 use Illuminate\Console\Command;
 
-class ActionTestGeneratorCommand extends Command{
+class ActionTestGeneratorCommand extends Command
+{
     /**
      * The name and signature of the console command.
      *
@@ -28,7 +26,6 @@ class ActionTestGeneratorCommand extends Command{
      *
      * @return void
      */
-
     public function handle()
     {
         $className = $this->argument('className');

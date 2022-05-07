@@ -1,14 +1,13 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Frontend\Writer;
-
 
 use Hitocean\Generator\Commands\Generators\Config\DTOS\FrontendAbmAttributeDTO;
 use Hitocean\Generator\Commands\Generators\FileAdmin;
 use Illuminate\Support\Str;
 
-class FormWriter {
+class FormWriter
+{
     public static function createFile(string $folder, string $name, array $attributes)
     {
         $directory = static::path($folder, $name);
@@ -19,8 +18,8 @@ class FormWriter {
             'model',
             base_path($directory),
             [
-                'upperName'  => $upperName,
-                'lowerName'  => $lowerName,
+                'upperName' => $upperName,
+                'lowerName' => $lowerName,
                 'formFields' => static::getFormFields($attributes),
             ],
             base_path('app/Console/Generators/Frontend/Stubs/form.stub')
@@ -30,6 +29,7 @@ class FormWriter {
     private static function path($rootName, $name): string
     {
         $upperName = Str::ucfirst($name);
+
         return "frontend/$rootName/components/{$upperName}Form/{$upperName}Form.tsx";
     }
 
@@ -42,10 +42,10 @@ class FormWriter {
     {
         $attrs = "";
         foreach ($attributes as $attribute) {
-            $type  = $attribute->type !== "string" ? 'type="' . static::fieldType($attribute) . '"' : "";
+            $type = $attribute->type !== "string" ? 'type="' . static::fieldType($attribute) . '"' : "";
             $field = '          <Field
             name="' . $attribute->name . '"
-            label="' . Str::ucfirst($attribute->translation) . (!$attribute->isOptional ? ' *' : '') . '"
+            label="' . Str::ucfirst($attribute->translation) . (! $attribute->isOptional ? ' *' : '') . '"
             ' . $type . '
             variant="outlined"
             className="col-span-6"
@@ -54,19 +54,17 @@ class FormWriter {
           />';
             $attrs .= $field . "\r\n\t";
         }
+
         return $attrs;
     }
 
-
     private static function fieldType(FrontendAbmAttributeDTO $attribute): string
     {
-
         return match ($attribute->type) {
             'int', 'float' => 'number',
             'bool' => 'checkbox',
             default => 'text',
         };
-
     }
 
     private static function componentType(FrontendAbmAttributeDTO $attribute): string
@@ -75,6 +73,5 @@ class FormWriter {
             'bool' => 'CheckboxWithLabel',
             default => 'TextField',
         };
-
     }
 }

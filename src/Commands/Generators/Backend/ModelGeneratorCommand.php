@@ -1,16 +1,13 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Backend;
-
 
 use Hitocean\Generator\Commands\Generators\Backend\Writers\MigrationWriter;
 use Hitocean\Generator\Commands\Generators\Backend\Writers\ModelWriter;
 use Illuminate\Console\Command;
-use Illuminate\Support\Str;
 
-class ModelGeneratorCommand extends Command {
-
+class ModelGeneratorCommand extends Command
+{
     /**
      * The name and signature of the console command.
      *
@@ -30,7 +27,6 @@ class ModelGeneratorCommand extends Command {
      *
      * @return void
      */
-
     public function handle()
     {
         $className = $this->argument('className');
@@ -40,5 +36,4 @@ class ModelGeneratorCommand extends Command {
         $hasFactory = $this->option('hasFactory');
         ModelWriter::createClassFile($rootName, $className, $tableName, [], $hasMigration, $hasFactory);
     }
-
 }

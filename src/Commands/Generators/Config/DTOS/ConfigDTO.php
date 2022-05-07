@@ -1,9 +1,6 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Config\DTOS;
-
-
 
 use Spatie\DataTransferObject\Attributes\CastWith;
 use Spatie\DataTransferObject\DataTransferObject;
@@ -16,5 +13,4 @@ class ConfigDTO extends DataTransferObject
     public array $attributes;
     public string $tableName;
     public bool $has_abm;
-
 }

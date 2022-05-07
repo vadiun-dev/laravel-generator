@@ -1,14 +1,12 @@
 <?php
 
-
 namespace Hitocean\Generator\Commands\Generators\Frontend;
-
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
-class RootDirectoryGeneratorCommand extends Command {
-
+class RootDirectoryGeneratorCommand extends Command
+{
     /**
      * The name and signature of the console command.
      *
@@ -29,7 +27,6 @@ class RootDirectoryGeneratorCommand extends Command {
      * @return void
      */
 
-
     /**
      * Execute the console command.
      *
@@ -37,7 +34,7 @@ class RootDirectoryGeneratorCommand extends Command {
      */
     public function handle()
     {
-        $name          = ucfirst($this->argument('name'));
+        $name = ucfirst($this->argument('name'));
         $rootDirectory = "frontend/$name";
         $this->makeDirectory($rootDirectory);
         $this->makeDirectory($rootDirectory . "/components");
@@ -45,15 +42,14 @@ class RootDirectoryGeneratorCommand extends Command {
         $this->makeDirectory($rootDirectory . "/models");
         $this->makeDirectory($rootDirectory . "/pages");
         $this->makeDirectory($rootDirectory . "/services");
-
-
     }
 
     private function makeDirectory($directoryName)
     {
-        if (!file_exists(base_path($directoryName)))
-            if (!mkdir($concurrentDirectory = base_path($directoryName), 0777, true) && !is_dir($concurrentDirectory)) {
+        if (! file_exists(base_path($directoryName))) {
+            if (! mkdir($concurrentDirectory = base_path($directoryName), 0777, true) && ! is_dir($concurrentDirectory)) {
                 throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
             }
+        }
     }
 }
