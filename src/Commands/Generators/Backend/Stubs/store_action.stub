@@ -1,0 +1,42 @@
+<?php
+
+
+namespace Src\upperName\Actions;
+
+use DB;
+use Lorisleiva\Actions\Concerns\AsAction;
+use Src\upperName\Actions\DTOS\StoreupperNameDTO;
+use Src\upperName\Models\upperName;
+use Src\upperName\Requests\StoreupperNameRequest;
+use Src\upperName\Resources\upperNameResource;
+
+class StoreupperNameAction
+{
+    use AsAction;
+
+    /**
+     * @group            upperName
+     * @authenticated
+     * @apiResourceModel Src\upperName\Models\upperName
+     * @apiResource      Src\upperName\Resources\upperNameResource
+     * @param StoreupperNameRequest $request
+     * @return upperNameResource
+     */
+    public function asController(StoreupperNameRequest $request): upperNameResource
+    {
+        $dto          = new StoreupperNameDTO($request->all());
+        $lowerName = DB::transaction(fn () => $this->handle($dto));
+        return new upperNameResource($lowerName);
+    }
+
+    public function handle(StoreupperNameDTO $dto): upperName
+    {
+        return upperName::create(
+            [
+                createFields
+            ]
+        );
+    }
+
+
+}

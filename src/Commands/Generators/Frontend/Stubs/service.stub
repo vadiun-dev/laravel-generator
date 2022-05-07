@@ -1,0 +1,46 @@
+import { httpClient } from 'shared/services/http/httpClient';
+import {
+  lowerNameBuilder,
+  upperNameModel,
+} from '../models/upperName';
+
+import {
+  lowerNameFormBuilder,
+  upperNameFormType
+} from '../components/upperNameForm/upperNameFormType';
+
+const useupperNamePlural = () => {
+  const addupperName = (x: upperNameFormType) => {
+    return httpClient.post('route', lowerNameFormBuilder.toBackEnd(x));
+  };
+
+  const removeupperName = (lowerName: upperNameModel) => {
+    return httpClient.delete('route/' + lowerName.id);
+  };
+
+  const restoreupperName = (lowerName: upperNameModel) => {
+    return httpClient.put('route/' + lowerName.id + '/restore');
+  };
+
+  const updateupperName = (lowerName: upperNameFormType) => {
+    return httpClient.put(
+      'route/' + lowerName.id,
+      lowerNameFormBuilder.toBackEnd(lowerName)
+    );
+  };
+
+  const getupperNamePlural = async (): Promise<upperNameModel[]> => {
+    const response = await httpClient.get('route');
+    return response.map(lowerNameBuilder.fromBackEnd);
+  };
+
+  return {
+    addupperName,
+    removeupperName,
+    updateupperName,
+    getupperNamePlural,
+    restoreupperName
+  };
+};
+
+export default useupperNamePlural;

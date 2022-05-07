@@ -1,0 +1,20 @@
+import React from 'react';
+import { Card } from 'shared/components';
+import {upperNameForm} from './upperNameForm/upperNameForm';
+import { upperNameFormType } from './upperNameForm/upperNameFormType';
+
+interface Props {
+  update: (upperNameValues: upperNameFormType) => Promise<void>;
+  initialValues: upperNameFormType;
+}
+
+export function upperNameEdit({ update, initialValues }: Props) {
+  return (
+    <Card title="Nuevo upperName" className="w-full">
+      <div className="p-8">
+        <upperNameForm onSubmit={update} initialValues={initialValues} />
+      </div>
+    </Card>
+  );
+}
+

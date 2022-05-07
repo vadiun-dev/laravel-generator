@@ -1,0 +1,11 @@
+{
+    "folder": "Product/Product",
+    "name": "GetProducts",
+    "controllerTest": true,
+    "actionTest": false,
+    "routeName": "products",
+    "routeMethod": "get",
+    "roles": [],
+    "attributes": []
+}
+

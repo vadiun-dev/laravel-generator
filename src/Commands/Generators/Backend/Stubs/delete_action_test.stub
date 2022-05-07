@@ -1,0 +1,18 @@
+<?php
+
+namespace Tests\Actions\upperName\DeleteupperName;
+
+use Src\upperName\Models\upperName;
+use Tests\TestCase;
+use Src\upperName\Actions\DeleteupperNameAction;
+
+class DeleteupperNameActionTest extends TestCase {
+
+    /** @test */
+    public function delete_lowerName()
+    {
+        $id = upperName::factory()->create()->id;
+        DeleteupperNameAction::make()->handle($id);
+        $this->assertSoftDeleted('tableName', ['id' => $id]);
+    }
+}

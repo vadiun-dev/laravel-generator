@@ -1,0 +1,12 @@
+{
+    "folder": "Product/ProductCategory",
+    "name": "GetProductCategories",
+    "controllerTest": true,
+    "actionTest": false,
+    "routeName": "product-categories",
+    "routeMethod": "get",
+    "roles": [],
+    "attributes": [
+    ]
+}
+

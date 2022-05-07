@@ -1,0 +1,81 @@
+<?php
+
+
+namespace Tests\Actions\upperName\FindupperName;
+
+
+use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Gate;
+use Mockery\MockInterface;
+use Src\upperName\Actions\FindupperNameAction;
+use Src\upperName\Models\upperName;
+use Src\upperName\Requests\FindupperNameRequest;
+use Tests\NeedsFormRequests;
+use Tests\ResourceHelpers\upperName\upperNameResourceTestHelper;
+use Tests\TestCase;
+use Tests\UserMustBeAuthenticated;
+use Tests\UserMustBeVerified;
+use Src\User\User\Enums\Roles;
+
+class FindupperNameControllerTest extends TestCase implements UserMustBeAuthenticated, NeedsFormRequests, UserMustBeVerified {
+
+    public function acceptedRoles()
+    {
+        return [
+            [Roles::SUPER_ADMIN]
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider acceptedRoles
+     */
+    public function find_lowerName($rol)
+    {
+        $lowerName = upperName::factory()->create();
+        $expectedJson = upperNameResourceTestHelper::complete($lowerName);
+        $this->basicGetAssert(FindupperNameAction::class, "test_route", $rol, $expectedJson);
+    }
+
+    /** @test */
+    public function user_must_be_authenticated_exception()
+    {
+        $this->assert_route_needs_logged_user('get', 'routeName');
+    }
+
+    /** @test */
+    public function user_must_be_verified_exception()
+    {
+        $this->assert_route_needs_verified_user('get', 'routeName');
+    }
+
+    /** @test */
+    public function unaccepted_roles()
+    {
+        $this->assert_unaccepted_roles('get', 'routeName');
+    }
+
+    /** @test */
+    public function controller_uses_correct_form_request()
+    {
+        $this->assertActionUsesFormRequest(FindupperNameAction::class, FindupperNameRequest::class);
+    }
+
+    /** @test */
+    public function form_request_rules_are_correct()
+    {
+        $request = new FindupperNameRequest;
+        $this->assertEquals([], $request->rules());
+    }
+
+    /** @test */
+    public function form_request_authorization_is_true()
+    {
+        $request = $this->partialMock(FindupperNameRequest::class, fn(MockInterface $m) => $m->shouldReceive('user')->andReturn(1));
+        Gate::shouldReceive('check')->with('find-lowerName', 1)->andReturn(true);
+        $this->assertTrue($request->authorize());
+    }
+
+
+}

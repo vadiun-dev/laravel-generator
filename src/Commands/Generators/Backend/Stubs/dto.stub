@@ -1,0 +1,12 @@
+<?php
+
+
+namespace Src\rootFolder\Actions\DTOS;
+
+
+use Spatie\DataTransferObject\DataTransferObject;
+
+class className extends DataTransferObject
+{
+    attributes
+}

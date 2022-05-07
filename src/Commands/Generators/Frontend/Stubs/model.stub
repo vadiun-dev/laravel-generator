@@ -1,0 +1,17 @@
+
+export interface upperNameModel {
+attributes
+}
+
+
+export interface upperNameModelBack {
+attributes
+}
+
+export const lowerNameBuilder = {
+  fromBackEnd: (lowerName: upperNameModelBack): upperNameModel => {
+    return {
+        fromBackendAttributes
+    };
+  }
+};

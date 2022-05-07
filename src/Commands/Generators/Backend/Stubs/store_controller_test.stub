@@ -1,0 +1,120 @@
+<?php
+
+namespace Tests\Actions\upperName\StoreupperName;
+
+use Illuminate\Support\Facades\Gate;
+use Mockery\MockInterface;
+use Src\upperName\Actions\DTOS\StoreupperNameDTO;
+use Src\upperName\Actions\StoreupperNameAction;
+use Src\upperName\Models\upperName;
+use Src\upperName\Requests\StoreupperNameRequest;
+use Src\User\User\Enums\Roles;
+use Tests\NeedsFormRequests;
+use Tests\ResourceHelpers\upperName\upperNameResourceTestHelper;
+use Tests\TestCase;
+use Tests\UserMustBeAuthenticated;
+use Tests\UserMustBeVerified;
+
+class StoreupperNameControllerTest extends TestCase implements UserMustBeAuthenticated, NeedsFormRequests, UserMustBeVerified
+{
+    public function acceptedRoles(): array
+    {
+        return [
+            [Roles::SUPER_ADMIN],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider acceptedRoles
+     * @param $rol
+     */
+    public function store_lowerName($rol): void
+    {
+        $data         = [
+           requestData
+        ];
+        $lowerName = upperName::factory()->create();
+        $expectedJson = upperNameResourceTestHelper::complete($lowerName);
+        $this->basicPostAssert(
+            $data,
+            StoreupperNameAction::class,
+            StoreupperNameDTO::class,
+            "routeName",
+            $rol,
+            $expectedJson,
+            $lowerName
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider acceptedRoles
+     * @param $rol
+     */
+    public function store_lowerName_nullable($rol): void
+    {
+        $data         = [
+           requestDataNullable
+        ];
+        $lowerName = upperName::factory()->create();
+        $expectedJson = upperNameResourceTestHelper::complete($lowerName);
+        $this->basicPostAssert(
+            $data,
+            StoreupperNameAction::class,
+            StoreupperNameDTO::class,
+            "routeName",
+            $rol,
+            $expectedJson,
+            $lowerName
+        );
+    }
+
+    /** @test */
+    public function user_must_be_authenticated_exception(): void
+    {
+        $this->assert_route_needs_logged_user('routeMethod', 'routeName');
+    }
+
+    /** @test */
+    public function user_must_be_verified_exception(): void
+    {
+        $this->assert_route_needs_verified_user('routeMethod', 'routeName');
+    }
+
+    /** @test */
+    public function unaccepted_roles(): void
+    {
+        $this->assert_unaccepted_roles('routeMethod', 'routeName');
+    }
+
+    /** @test */
+    public function controller_uses_correct_form_request(): void
+    {
+        $this->assertActionUsesFormRequest(StoreupperNameAction::class, StoreupperNameRequest::class);
+    }
+
+    /** @test */
+    public function form_request_rules_are_correct(): void
+    {
+        $request = new StoreupperNameRequest();
+        $this->assertEquals(
+            [
+               requestRules
+            ],
+            $request->rules()
+        );
+    }
+
+    /** @test */
+    public function form_request_authorization_is_true(): void
+    {
+        /** @var StoreupperNameRequest $request */
+        $request = $this->partialMock(
+            StoreupperNameRequest::class,
+            fn (MockInterface $m) => $m->shouldReceive('user')->andReturn(1)
+        );
+        Gate::shouldReceive('check')->with('store-lowerName', 1)->andReturn(true);
+        $this->assertTrue($request->authorize());
+    }
+}

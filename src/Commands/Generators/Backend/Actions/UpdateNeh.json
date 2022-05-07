@@ -1,0 +1,20 @@
+{
+    "folder": "Neighborhood",
+    "name": "UpdateNeighborhood",
+    "controllerTest": true,
+    "actionTest": true,
+    "routeName": "neighborhoods/{id}",
+    "routeMethod": "put",
+    "roles": [],
+    "attributes": [
+        {
+            "name": "name",
+            "type": "string"
+        },
+        {
+            "name": "subsidiary",
+            "type": "int"
+        }
+    ]
+}
+

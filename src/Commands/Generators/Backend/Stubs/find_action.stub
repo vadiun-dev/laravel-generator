@@ -1,0 +1,33 @@
+<?php
+
+
+namespace Src\upperName\Actions;
+
+
+use Lorisleiva\Actions\Concerns\AsAction;
+use Src\upperName\Models\upperName;
+use Src\upperName\Requests\FindupperNameRequest;
+use Src\upperName\Resources\upperNameResource;
+
+class FindupperNameAction {
+    use AsAction;
+
+    /**
+     * @group upperName
+     * @authenticated
+     * @apiResource Src\upperName\Resources\upperNameResource
+     * @apiResourceModel Src\upperName\Models\upperName states=complete with=images,languages,interests,address
+     */
+    public function asController(FindupperNameRequest $request, int $id)
+    {
+        $lowerName_id = $id === 'me' ? $request->user()->lowerName->id : $id;
+        return new upperNameResource($this->handle($lowerName_id));
+    }
+
+    public function handle(int $id): upperName
+    {
+        return upperName::findOrFail($id);
+    }
+
+
+}

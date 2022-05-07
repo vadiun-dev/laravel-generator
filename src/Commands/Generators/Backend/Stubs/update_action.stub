@@ -1,0 +1,44 @@
+<?php
+
+namespace Src\upperName\Actions;
+
+use DB;
+use Lorisleiva\Actions\Concerns\AsAction;
+use Src\upperName\Actions\DTOS\UpdateupperNameDTO;
+use Src\upperName\Models\upperName;
+use Src\upperName\Requests\UpdateupperNameRequest;
+use Src\upperName\Resources\upperNameResource;
+
+class UpdateupperNameAction
+{
+    use AsAction;
+
+    /**
+     * @group            upperName
+     * @authenticated
+     * @apiResourceModel Src\upperName\Models\upperName
+     * @apiResource      Src\upperName\Resources\upperNameResource
+     * @param UpdateupperNameRequest $request
+     * @param int $id
+     * @return upperNameResource
+     */
+    public function asController(UpdateupperNameRequest $request, int $id): upperNameResource
+    {
+        $data         = $request->all();
+        $data['id']   = $id;
+        $dto          = new UpdateupperNameDTO($data);
+        $lowerName = DB::transaction(fn () => $this->handle($dto));
+        return new upperNameResource($lowerName);
+    }
+
+    public function handle(UpdateupperNameDTO $dto): upperName
+    {
+        $lowerName = upperName::findOrFail($dto->id);
+        $lowerName->update(
+            [
+                updateFields
+            ]
+        );
+        return $lowerName;
+    }
+}

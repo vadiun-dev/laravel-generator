@@ -1,0 +1,30 @@
+<?php
+
+namespace Src\upperName\Actions;
+
+use Lorisleiva\Actions\Concerns\AsAction;
+use Src\upperName\Models\upperName;
+use Src\upperName\Requests\GetupperNameRequest;
+use Src\upperName\Resources\upperNameResource;
+
+class GetupperNameAction
+{
+    use AsAction;
+
+    /**
+     * @group upperName
+     * @authenticated
+     * @apiResourceModel      Src\upperName\Models\upperName
+     * @apiResourceCollection Src\upperName\Resources\upperNameResource
+     * @param GetupperNameRequest $request
+     */
+    public function asController(GetupperNameRequest $request)
+    {
+        return upperNameResource::collection($this->handle());
+    }
+
+    public function handle()
+    {
+        return upperName::all();
+    }
+}

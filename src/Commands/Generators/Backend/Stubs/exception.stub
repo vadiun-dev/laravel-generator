@@ -1,0 +1,10 @@
+<?php
+
+
+namespace Src\rootFolder\Exceptions;
+
+
+class className extends \Exception
+{
+
+}

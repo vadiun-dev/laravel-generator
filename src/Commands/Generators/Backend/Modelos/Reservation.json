@@ -1,0 +1,40 @@
+{
+    "modelName": "Applicant",
+    "folder": "Client/Applicant",
+    "tableName": "transfer_reservations",
+    "abm": true,
+    "attributes": [
+        {
+            "name": "client_id",
+            "type": "int"
+        },
+        {
+            "name": "entry_channel",
+            "type": "string"
+        },
+        {
+            "name": "platform_id",
+            "type": "?string"
+        },
+        {
+            "name": "has_priority",
+            "type": "bool"
+        },
+        {
+            "name": "service_type",
+            "type": "string"
+        },
+        {
+            "name": "coordination_observation",
+            "type": "?string"
+        },
+        {
+            "name": "reservation_datetime",
+            "type": "date"
+        },
+        {
+            "name": "advance_hours",
+            "type": "int"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+import React from 'react';
+import { Card } from 'shared/components';
+import {upperNameForm} from './upperNameForm/upperNameForm';
+import { upperNameFormType } from './upperNameForm/upperNameFormType';
+
+interface Props {
+  create: (upperNameValues: upperNameFormType) => Promise<void>;
+}
+export function upperNameCreate({ create }: Props) {
+  return (
+    <Card title="Nuevo upperNameTranslation" className="w-full">
+      <div className="p-8">
+        <upperNameForm onSubmit={create} />
+      </div>
+    </Card>
+  );
+}
+

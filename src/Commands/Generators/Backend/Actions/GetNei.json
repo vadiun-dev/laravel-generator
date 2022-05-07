@@ -1,0 +1,12 @@
+{
+    "folder": "Neighborhood",
+    "name": "GetNeighborhoods",
+    "controllerTest": true,
+    "actionTest": false,
+    "routeName": "neighborhoods",
+    "routeMethod": "get",
+    "roles": [],
+    "attributes": [
+    ]
+}
+

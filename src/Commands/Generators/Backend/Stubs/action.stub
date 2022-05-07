@@ -1,0 +1,30 @@
+<?php
+
+
+namespace Src\rootFolder\Actions;
+
+
+use Lorisleiva\Actions\Concerns\AsAction;
+dtoImport
+requestImport
+
+class className
+{
+    use AsAction;
+
+    public function handle(handleParams)
+    {
+        //todo: make handle
+    }
+
+    /**
+      resourceDoc
+      resourceModelDoc
+     */
+    public function asController(controllerParams)
+    {
+        //todo: make controller
+    }
+
+
+}

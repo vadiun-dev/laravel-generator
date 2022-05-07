@@ -1,0 +1,109 @@
+import React, { useState } from 'react';
+import { Button } from '@vadiun/react-components';
+import {PageContainer, PageHeader} from '../../../../layout/components';
+import {upperNameCreate} from '../components/upperNameCreate';
+import {upperNameTable} from '../components/upperNameTable';
+import {
+  upperNameFormType,
+  lowerNameFormBuilder
+} from '../components/upperNameForm/upperNameFormType';
+import useupperNamePlural from '../services/upperNameService';
+import { upperNameModel } from '../models/upperName';
+import {upperNameEdit} from '../components/upperNameEdit';
+import { useSuperMutation, useSuperQuery } from '@vadiun/react-hooks';
+
+export function upperNameCrudPage(props: any) {
+  const upperNameService = useupperNamePlural();
+  const lowerNamePluralQuery = useSuperQuery(upperNameService.getupperNamePlural, {
+    showSpinner: true
+  });
+  const updateupperNameMutation = useSuperMutation(upperNameService.updateupperName);
+  const addupperNameMutation = useSuperMutation(upperNameService.addupperName);
+  const removeupperNameMutation = useSuperMutation(upperNameService.removeupperName, {
+    showSpinner: true
+  });
+  const restoreupperNameMutation = useSuperMutation(
+    upperNameService.restoreupperName,
+    {
+      showSpinner: true
+    }
+  );
+  const [visiblePage, setVisiblePage] = useState<'table' | 'create' | 'update'>(
+    'table'
+  );
+  const [updatingupperName, setEditingupperName] = useState<upperNameModel>();
+
+  async function update(lowerNameValues: upperNameFormType) {
+    lowerNameValues.id = updatingupperName!.id;
+    await updateupperNameMutation.mutate(lowerNameValues);
+    setVisiblePage('table');
+    lowerNamePluralQuery.reload();
+  }
+
+  async function create(lowerNameValues: upperNameFormType) {
+
+    await addupperNameMutation.mutate(lowerNameValues);
+    setVisiblePage('table');
+    lowerNamePluralQuery.reload();
+  }
+
+  async function remove(lowerName: upperNameModel) {
+    await removeupperNameMutation.mutate(lowerName);
+    lowerNamePluralQuery.reload();
+  }
+
+  async function restore(lowerName: upperNameModel) {
+    await restoreupperNameMutation.mutate(lowerName);
+    lowerNamePluralQuery.reload();
+  }
+
+  function selectToEdit(lowerName: upperNameModel) {
+    setEditingupperName(lowerName);
+    setVisiblePage('update');
+  }
+  return (
+    <>
+      <PageHeader
+        title="upperNamePluralTranslation"
+        subtitle={
+          visiblePage === 'table'
+            ? 'Listado de upperNamePluralTranslation'
+            : visiblePage === 'create'
+            ? 'Nuevo upperNameTranslation'
+            : 'Editar upperNameTranslation'
+        }
+        toolbar={
+          visiblePage === 'table' ? (
+            <Button onClick={() => setVisiblePage('create')} variant="light">
+              Crear upperNameTranslation
+            </Button>
+          ) : (
+            <Button onClick={() => setVisiblePage('table')} variant="light">
+              Volver
+            </Button>
+          )
+        }
+      />
+
+      <PageContainer>
+        {visiblePage === 'table' && (
+          <upperNameTable
+            lowerNamePlural={lowerNamePluralQuery.data || []}
+            selectToEdit={selectToEdit}
+            delete={remove}
+            restore={restore}
+          />
+        )}
+
+        {visiblePage === 'create' && <upperNameCreate create={create} />}
+        {visiblePage === 'update' && updatingupperName && (
+          <upperNameEdit
+            update={update}
+            initialValues={lowerNameFormBuilder.fromModel(updatingupperName)}
+          />
+        )}
+      </PageContainer>
+    </>
+  );
+}
+

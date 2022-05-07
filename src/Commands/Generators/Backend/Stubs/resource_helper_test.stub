@@ -1,0 +1,23 @@
+<?php
+
+
+namespace Tests\ResourceHelpers\modelName;
+
+
+use Illuminate\Support\Collection;
+modelImport
+use Tests\ResourceHelpers\ResourceTestHelper;
+
+class className extends ResourceTestHelper{
+
+    /**
+     * @param modelName $modelNameVar
+     * @return array
+     */
+    protected static function mapModel($modelNameVar): array
+    {
+        return [
+            attributes
+        ];
+    }
+}

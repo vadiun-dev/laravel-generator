@@ -1,0 +1,90 @@
+import React from 'react';
+import MUIDataTable from 'mui-datatables';
+import { upperNameModel } from '../models/upperName';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useVerifyAction } from '@vadiun/react-hooks';
+import { Button } from '@vadiun/react-components';
+
+interface Props {
+  lowerNamePlural: upperNameModel[];
+  selectToEdit: (x: upperNameModel) => void;
+  delete: (x: upperNameModel) => void;
+  restore: (x: upperNameModel) => void;
+}
+
+export const upperNameTable = (props: Props) => {
+  const verifyAction = useVerifyAction();
+
+  const columns = [
+    attributesColumns
+    {
+      name: 'isDeleted',
+      label: 'Borrado',
+      options: {
+        display: false,
+        filterOptions: {
+          names: ['Si', 'No']
+        },
+        filterList: ['No'],
+        customFilterListOptions: { render: (v) => `Borrado: ${v}` }
+      }
+    },
+    {
+      label: 'Acciones',
+      name: 'id',
+      options: {
+        filter: false,
+        customBodyRenderLite: (index: number) =>
+          props.lowerNamePlural[index].isDeleted ? (
+            <Button onClick={() => props.restore(props.lowerNamePlural[index])}>
+              Restaurar
+            </Button>
+          ) : (
+            <div style={{ display: 'flex' }}>
+              <Button
+                onClick={() => props.selectToEdit(props.lowerNamePlural[index])}
+                shape="circle"
+                color="primary"
+              >
+                <FontAwesomeIcon icon={faPencilAlt} />
+              </Button>
+              <Button
+                onClick={() =>
+                  verifyAction({
+                    title: 'Estas por eliminar un lowerName!',
+                    body: 'Esta accion va a eliminar el lowerName. ¿Estas seguro?',
+                    onAccept: () => props.delete(props.lowerNamePlural[index])
+                  })
+                }
+                shape="circle"
+                color="red"
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </Button>
+            </div>
+          )
+      }
+    }
+  ];
+
+  const data = props.lowerNamePlural.map((x) => ({
+    ...x,
+    isDeleted: x.isDeleted ? 'Si' : 'No',
+  }));
+
+  return (
+    <div className="w-full">
+      <MUIDataTable
+        options={{
+          elevation: 0,
+          selectableRows: 'none'
+        }}
+        title={'upperNamePluralTranslation'}
+        data={data}
+        columns={columns}
+      />
+    </div>
+  );
+};
+

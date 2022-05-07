@@ -1,0 +1,126 @@
+<?php
+
+namespace Tests\Actions\upperName\UpdateupperName;
+
+use Illuminate\Support\Facades\Gate;
+use Mockery\MockInterface;
+use Src\upperName\Actions\DTOS\UpdateupperNameDTO;
+use Src\upperName\Actions\UpdateupperNameAction;
+use Src\upperName\Models\upperName;
+use Src\upperName\Requests\UpdateupperNameRequest;
+use Src\User\User\Enums\Roles;
+use Tests\NeedsFormRequests;
+use Tests\ResourceHelpers\upperName\upperNameResourceTestHelper;
+use Tests\TestCase;
+use Tests\UserMustBeAuthenticated;
+use Tests\UserMustBeVerified;
+
+class UpdateupperNameControllerTest extends TestCase implements UserMustBeAuthenticated, NeedsFormRequests, UserMustBeVerified
+{
+    public function acceptedRoles(): array
+    {
+        return [
+            [Roles::SUPER_ADMIN],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider acceptedRoles
+     * @param $rol
+     */
+    public function update_lowerName($rol): void
+    {
+        $lowerName = upperName::factory()->create();
+
+        $data         = [
+            'id'         => $lowerName->id,
+            requestData
+        ];
+        $expectedJson = upperNameResourceTestHelper::complete($lowerName);
+
+        $this->basicPutAssert(
+            $data,
+            UpdateupperNameAction::class,
+            UpdateupperNameDTO::class,
+            "test_route",
+            $rol,
+            $expectedJson,
+            $lowerName
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider acceptedRoles
+     * @param $rol
+     */
+    public function update_lowerName_nullable($rol): void
+    {
+        $lowerName = upperName::factory()->create();
+
+        $data         = [
+            'id'         => $lowerName->id,
+            requestData
+        ];
+        $expectedJson = upperNameResourceTestHelper::complete($lowerName);
+
+        $this->basicPutAssert(
+            $data,
+            UpdateupperNameAction::class,
+            UpdateupperNameDTO::class,
+            "test_route",
+            $rol,
+            $expectedJson,
+            $lowerName
+        );
+    }
+
+    /** @test */
+    public function user_must_be_authenticated_exception(): void
+    {
+        $this->assert_route_needs_logged_user('put', 'api/lowerNames/{id}');
+    }
+
+    /** @test */
+    public function user_must_be_verified_exception(): void
+    {
+        $this->assert_route_needs_verified_user('put', 'api/lowerNames/{id}');
+    }
+
+    /** @test */
+    public function unaccepted_roles(): void
+    {
+        $this->assert_unaccepted_roles('put', 'api/lowerNames/{id}');
+    }
+
+    /** @test */
+    public function controller_uses_correct_form_request(): void
+    {
+        $this->assertActionUsesFormRequest(UpdateupperNameAction::class, UpdateupperNameRequest::class);
+    }
+
+    /** @test */
+    public function form_request_rules_are_correct(): void
+    {
+        $request = new UpdateupperNameRequest();
+        $this->assertEquals(
+            [
+                requestRules
+            ],
+            $request->rules()
+        );
+    }
+
+    /** @test */
+    public function form_request_authorization_is_true(): void
+    {
+        /** @var UpdateupperNameRequest $request */
+        $request = $this->partialMock(
+            UpdateupperNameRequest::class,
+            fn (MockInterface $m) => $m->shouldReceive('user')->andReturn(1)
+        );
+        Gate::shouldReceive('check')->with('update-lowerName', 1)->andReturn(true);
+        $this->assertTrue($request->authorize());
+    }
+}

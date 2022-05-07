@@ -1,0 +1,47 @@
+import React from 'react';
+import { Field, Form, Formik } from 'formik';
+import { TextField, CheckboxWithLabel } from 'formik-material-ui';
+import { Button } from '@vadiun/react-components';
+import { createupperNameFormInitialValues } from './upperNameFormInitialValues';
+import {upperNameFormType} from './upperNameFormType';
+import {lowerNameFormValidation} from './upperNameFormValidation';
+
+interface Props {
+  onSubmit: (value: upperNameFormType) => Promise<void>;
+  initialValues?: upperNameFormType;
+}
+
+export function upperNameForm({
+  onSubmit,
+  initialValues = createupperNameFormInitialValues()
+}: Props) {
+  return (
+    <Formik<upperNameFormType>
+      initialValues={initialValues}
+      validationSchema={lowerNameFormValidation}
+      enableReinitialize
+      onSubmit={onSubmit}
+    >
+      {({ isSubmitting }) => (
+        <Form className="w-full grid gap-6 grid-cols-6">
+        formFields
+
+          <div className="flex justify-end col-span-6">
+            <Button
+              type="submit"
+              variant="contained"
+              color="green"
+              isLoading={isSubmitting}
+              disabled={isSubmitting}
+            >
+              Guardar
+            </Button>
+          </div>
+
+        </Form>
+      )}
+    </Formik>
+  );
+}
+
+

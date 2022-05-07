@@ -1,0 +1,32 @@
+{
+    "folder": "Passenger",
+    "name": "Passenger",
+    "route": "business-clients/{id}/passengers",
+    "attributes": [
+        {
+            "name": "name",
+            "type": "string"
+        },
+        {
+            "name": "phone",
+            "type": "?int"
+        },
+        {
+            "name": "email",
+            "type": "?string"
+        },
+        {
+            "name": "has_priority",
+            "type": "bool"
+        },
+        {
+            "name": "dni",
+            "type": "?int"
+        },
+        {
+            "name": "nationality",
+            "type": "?string"
+        }
+    ]
+}
+

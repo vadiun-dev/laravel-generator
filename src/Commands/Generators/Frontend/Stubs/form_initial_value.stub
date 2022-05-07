@@ -1,0 +1,8 @@
+import {
+  upperNameFormType,
+} from './upperNameFormType';
+
+export const createupperNameFormInitialValues = (): upperNameFormType => ({
+    initialValuesAttributes
+});
+

@@ -1,0 +1,78 @@
+<?php
+
+
+namespace testNamespace;
+
+
+use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Gate;
+use Mockery\MockInterface;
+actionImport
+requestImport
+dtoImport
+use Tests\NeedsFormRequests;
+use Tests\TestCase;
+use Tests\UserMustBeAuthenticated;
+use Tests\UserMustBeVerified;
+use Src\User\User\Enums\Roles;
+
+class className extends TestCase implements UserMustBeAuthenticated, NeedsFormRequests, UserMustBeVerified {
+
+    public function acceptedRoles()
+    {
+        return [
+            [Roles::SUPER_ADMIN],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider acceptedRoles
+     */
+    public function test_name($rol)
+    {
+        example_test
+    }
+
+    /** @test */
+    public function user_must_be_authenticated_exception()
+    {
+        $this->assert_route_needs_logged_user('routeMethod', 'routeName');
+    }
+
+    /** @test */
+    public function user_must_be_verified_exception()
+    {
+        $this->assert_route_needs_verified_user('routeMethod', 'routeName');
+    }
+
+    /** @test */
+    public function unaccepted_roles()
+    {
+        $this->assert_unaccepted_roles('routeMethod', 'routeName');
+    }
+
+    /** @test */
+    public function controller_uses_correct_form_request()
+    {
+        $this->assertActionUsesFormRequest(actionClassName::class, requestClassName::class);
+    }
+
+    /** @test */
+    public function form_request_rules_are_correct()
+    {
+        $request = new requestClassName;
+        $this->assertEquals([], $request->rules());
+    }
+
+    /** @test */
+    public function form_request_authorization_is_true()
+    {
+        $request = $this->partialMock(requestClassName::class, fn(MockInterface $m) => $m->shouldReceive('user')->andReturn(1));
+        Gate::shouldReceive('check')->with('gate_name', 1)->andReturn(true);
+        $this->assertTrue($request->authorize());
+    }
+
+
+}

@@ -1,0 +1,77 @@
+<?php
+
+namespace Tests\Actions\upperName\DeleteupperName;
+
+use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Gate;
+use Mockery\MockInterface;
+use Src\upperName\Actions\DeleteupperNameAction;
+use Src\upperName\Models\upperName;
+use Src\upperName\Requests\DeleteupperNameRequest;
+use Tests\NeedsFormRequests;
+use Tests\TestCase;
+use Tests\UserMustBeAuthenticated;
+use Tests\UserMustBeVerified;
+use Src\User\User\Enums\Roles;
+
+class DeleteupperNameControllerTest extends TestCase implements UserMustBeAuthenticated, NeedsFormRequests, UserMustBeVerified {
+
+    public function acceptedRoles()
+    {
+        return [
+            [Roles::SUPER_ADMIN],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider acceptedRoles
+     */
+    public function delete_lowerName($rol)
+    {
+        $lowerName = upperName::factory()->create();
+        $this->basicDeleteAssert($lowerName->id, DeleteupperNameAction::class, null, "test_route", $rol);
+    }
+
+    /** @test */
+    public function user_must_be_authenticated_exception()
+    {
+        $this->assert_route_needs_logged_user('delete', 'routeName');
+    }
+
+    /** @test */
+    public function user_must_be_verified_exception()
+    {
+        $this->assert_route_needs_verified_user('delete', 'routeName');
+    }
+
+    /** @test */
+    public function unaccepted_roles()
+    {
+        $this->assert_unaccepted_roles('delete', 'routeName');
+    }
+
+    /** @test */
+    public function controller_uses_correct_form_request()
+    {
+        $this->assertActionUsesFormRequest(DeleteupperNameAction::class, DeleteupperNameRequest::class);
+    }
+
+    /** @test */
+    public function form_request_rules_are_correct()
+    {
+        $request = new DeleteupperNameRequest;
+        $this->assertEquals([], $request->rules());
+    }
+
+    /** @test */
+    public function form_request_authorization_is_true()
+    {
+        $request = $this->partialMock(DeleteupperNameRequest::class, fn(MockInterface $m) => $m->shouldReceive('user')->andReturn(1));
+        Gate::shouldReceive('check')->with('delete-lowerName', 1)->andReturn(true);
+        $this->assertTrue($request->authorize());
+    }
+
+
+}

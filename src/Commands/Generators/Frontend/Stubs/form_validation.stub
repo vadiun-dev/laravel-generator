@@ -1,0 +1,11 @@
+import {
+  upperNameFormType,
+} from './upperNameFormType';
+import { YupShape } from 'shared/models/YupShape';
+import * as Yup from 'yup';
+
+
+export const lowerNameFormValidation: YupShape<upperNameFormType> =
+  Yup.object().shape({
+    yupAttributes
+  });

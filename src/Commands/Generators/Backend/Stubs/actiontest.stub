@@ -1,0 +1,19 @@
+<?php
+
+
+namespace testNamespace;
+
+
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
+dtoImport
+actionImport
+
+class className extends TestCase {
+
+    /** @test */
+    public function test_name()
+    {
+        example_test
+    }
+}

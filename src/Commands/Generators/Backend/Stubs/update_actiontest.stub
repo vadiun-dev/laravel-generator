@@ -1,0 +1,44 @@
+<?php
+
+namespace Tests\Actions\upperName\UpdateupperName;
+
+use Src\upperName\Actions\DTOS\UpdateupperNameDTO;
+use Src\upperName\Actions\UpdateupperNameAction;
+use Src\upperName\Models\upperName;
+use Tests\TestCase;
+
+class UpdateupperNameActionTest extends TestCase
+{
+    /** @test */
+    public function update_lowerName(): void
+    {
+        $lowerName = upperName::factory()->create();
+
+        $dto = new UpdateupperNameDTO(
+            [
+               'id' => $lowerName->id,
+               dtoData
+            ]
+        );
+        UpdateupperNameAction::make()->handle($dto);
+        $this->assertDatabaseHas('tableName', [
+            assertDataTable
+        ]);
+    }
+
+    /** @test */
+    public function update_lowerName_nullable(): void
+    {
+            $lowerName = upperName::factory()->create();
+            $dto      = new UpdateupperNameDTO(
+                [
+                   'id'         => $lowerName->id,
+                   dtoDataNullable
+                ]
+            );
+            UpdateupperNameAction::make()->handle($dto);
+            $this->assertDatabaseHas('tableName', [
+                assertDataTable
+            ]);
+    }
+}

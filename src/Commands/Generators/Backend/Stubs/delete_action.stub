@@ -1,0 +1,29 @@
+<?php
+
+namespace Src\upperName\Actions;
+
+use Lorisleiva\Actions\Concerns\AsAction;
+
+use Src\upperName\Models\upperName;
+use Src\upperName\Requests\DeleteupperNameRequest;
+
+class DeleteupperNameAction
+{
+    use AsAction;
+
+    public function handle($id)
+    {
+        upperName::destroy($id);
+    }
+
+    /**
+     * @group upperName
+     * @authenticated
+     */
+    public function asController(DeleteupperNameRequest $request, int $id)
+    {
+        \DB::transaction(fn() => $this->handle($id));
+    }
+
+
+}

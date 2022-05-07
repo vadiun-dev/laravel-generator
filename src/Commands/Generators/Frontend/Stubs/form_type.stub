@@ -1,0 +1,22 @@
+import {
+  upperNameModel,
+} from '../../models/upperName';
+
+export type upperNameFormType = Omit<upperNameModel, 'isDeleted' | 'id' typesOmited> & {
+  id?: number;
+  attributesType
+};
+
+export const lowerNameFormBuilder = {
+  toBackEnd: (lowerName: upperNameFormType) => {
+    return {
+        toBackendAttributes
+    };
+  },
+      fromModel: (lowerName: NeighborhoodModel): NeighborhoodFormType => {
+          return {
+              ...lowerName,
+              attributesFromModel
+          }
+      }
+};

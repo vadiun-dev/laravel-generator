@@ -1,0 +1,20 @@
+<?php
+
+
+namespace Src\rootFolder\Resources;
+
+
+use Illuminate\Http\Resources\Json\JsonResource;
+modelImport
+
+class className extends JsonResource
+{
+    public function toArray($request)
+    {
+        /** @var modelName $this */
+
+        return [
+            attributes
+        ];
+    }
+}

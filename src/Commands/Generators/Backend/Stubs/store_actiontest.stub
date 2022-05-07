@@ -1,0 +1,38 @@
+<?php
+
+namespace Tests\Actions\upperName\StoreupperName;
+
+use Src\upperName\Actions\DTOS\StoreupperNameDTO;
+use Src\upperName\Actions\StoreupperNameAction;
+use Tests\TestCase;
+
+class StoreupperNameActionTest extends TestCase
+{
+    /** @test */
+    public function store_lowerName(): void
+    {
+        $dto      = new StoreupperNameDTO(
+            [
+               dtoData
+            ]
+        );
+        StoreupperNameAction::make()->handle($dto);
+        $this->assertDatabaseHas('tableName', [
+            assertDataTable
+        ]);
+    }
+
+    /** @test */
+    public function store_lowerName_nullable(): void
+    {
+            $dto      = new StoreupperNameDTO(
+                [
+                   dtoDataNullable
+                ]
+            );
+            StoreupperNameAction::make()->handle($dto);
+            $this->assertDatabaseHas('tableName', [
+                assertDataTable
+            ]);
+    }
+}
